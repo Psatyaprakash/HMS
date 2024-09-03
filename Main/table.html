@@ -1,0 +1,188 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>p_view</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    
+    <script>
+       // new DataTable('#table');
+       $('table').DataTable();
+    </script>
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+</head>
+<body>
+
+<style>
+    body { 
+    font-size: 140%; 
+    background-color: #D9AFD9;
+background-image: linear-gradient(0deg, #D9AFD9 0%, #97D9E1 100%);
+
+  }
+  .table{
+    width :100% ;
+    border:5px #935ef7;
+    border-radius: 10px;
+
+    background-image: transparent;
+
+  }
+  thead{
+    background-color: darkkhaki;
+    height: 20px;
+    font-size: larger;
+    font-family: fantasy;
+    font-style: italic;
+  }
+  th{
+    background-color: thistle;
+    height: 70px;
+    font-size: xx-large;
+  }
+  tr{
+    tab-size: 10cap;
+  }
+
+    h2 {
+      text-align: center;
+      padding: 20px 0;
+    }
+
+    table caption {
+      padding: .5em 0;
+    }
+
+    table.dataTable th,
+    table.dataTable td {
+      white-space: nowrap;
+    }
+
+    .p {
+      text-align: center;
+      padding-top: 140px;
+      font-size: 14px;
+    }
+</style>
+    
+
+<!--?php
+
+include 'connection.php';
+$query_str = "select * from patient ";
+/*$query_str = "select p.*,pdd.patient_disease from patient p left join 
+(select pd.patient_id, group_concat(d.disease_name) patient_disease
+  from  `patient_diseases` pd, `diseases` d 
+where d.disease_id=pd.disease_id group by pd.patient_id) pdd
+on p.p_id=pdd.patient_id";
+*/
+$result = mysqli_query($connect,$query_str);
+
+	echo '<br><br>';
+?-->
+<h2>Patient Details</h2>
+
+    <div class="container">
+    <div class="row bord">
+        <div class="col-12">
+        <table   id="table"  class="table table-striped w-40">
+          <thead>
+            <tr>
+              <th class="th-sm">Name
+              </th>
+              <th class="th-sm">Position
+              </th>
+              <th class="th-sm">Office
+              </th>
+              <th class="th-sm">Age
+              </th>
+              <th class="th-sm">Start date
+              </th>
+              <th class="th-sm">Salary
+              </th>
+            </tr>
+          </thead>
+<!--?php
+
+	while($result_array_row = mysqli_fetch_array($result))
+	{
+    /*
+     $sql_p_d = "select group_concat(d.disease_name) patient_disease from 
+     `patient_diseases` pd, `diseases` d where d.disease_id=pd.disease_id 
+     and pd.patient_id=".$result_array_row['p_id'];
+     $p_d_result = mysqli_query($connect,$sql_p_d);
+     $p_d_result_array_row = mysqli_fetch_array($p_d_result);*/
+
+        echo "<tr>";
+        echo '<td>'.$result_array_row['p_id'].'</td>';
+        echo '<td>'.$result_array_row['p_name'].'</td>';
+        echo '<td>'.$result_array_row['p_email'].'</td>';
+        echo '<td>'.$result_array_row['p_dob'].'</td>';
+        echo '<td>'.$result_array_row['p_gender'].'</td>';
+        echo '<td>'.$result_array_row['p_phone'].'</td>';
+        echo '<td>'.$result_array_row['p_address'].'</td>';
+//        echo '<td>'.$result_array_row['patient_disease'].'</td>';
+
+        echo '<td><img src="patient_images/'.$result_array_row['p_image'].'" width="100" height="80"></td>';
+        echo '<td><a href="patient_update.php?p_id='.$result_array_row['p_id'].'">edit</a></td>';
+        echo '<td><a href="patient_delete.php?p_id='.$result_array_row['p_id'].'">delete</a></td>';
+		echo "</tr>";
+    }
+	?-->
+  <tbody>
+    <tr>
+      <td>Ashton Cox</td>
+      <td>Junior Technical Author</td>
+      <td>San Francisco</td>
+      <td>66</td>
+      <td>2009/01/12</td>
+      <td>$86,000</td>
+    </tr>
+    <tr>
+      <td>Cedric Kelly</td>
+      <td>Senior Javascript Developer</td>
+      <td>Edinburgh</td>
+      <td>22</td>
+      <td>2012/03/29</td>
+      <td>$433,060</td>
+    </tr>
+    <tr>
+      <td>Airi Satou</td>
+      <td>Accountant</td>
+      <td>Tokyo</td>
+      <td>33</td>
+      <td>2008/11/28</td>
+      <td>$162,700</td>
+    </tr>
+    <tr>
+      <td>Brielle Williamson</td>
+      <td>Integration Specialist</td>
+      <td>New York</td>
+      <td>61</td>
+      <td>2012/12/02</td>
+      <td>$372,000</td>
+    </tr>
+    <tr>
+      <td>Herrod Chandler</td>
+      <td>Sales Assistant</td>
+      <td>San Francisco</td>
+      <td>59</td>
+      <td>2012/08/06</td>
+      <td>$137,500</td>
+    </tr>
+  </tbody>
+    <div border=5; border-radius=20px>
+        <a href="project.php">PROJECT</a>
+    </div>
+
+
+
+</body>
+</html>
